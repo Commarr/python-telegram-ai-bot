@@ -23,15 +23,15 @@ class LLMService:
 
     def chat(self, message, history):
         # Берем последние два сообщения из истории, чтобы не перегружать запрос
-        messages=[{"role": "system", "content": self.sys_prompt}] + history[-2:] + [{"role": "user", "content": message}]
+        messages=[{"role": "system", "content": self.sys_prompt}] + history[-4:] + [{"role": "user", "content": message}]
         logger.info(f"Message: {messages}")
         try:
             # Обращаемся к API
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=messages,
-                temperature=1.0,
-                max_tokens=100,
+                temperature=0.5,
+                max_tokens=500,
             )
             logger.info(f"Response: {response}")
             # Возвращаем ответ
